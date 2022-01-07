@@ -45,13 +45,13 @@
 								</filter>
 							</filters>
 							<relocations>
-								<!-- Older versions of Minecraft may ship antique builds of Apache 
+								<!-- Older versions of Minecraft may ship antique builds of Apache
 									Commons, relocate our own managed version. -->
 								<relocation>
 									<pattern>org.apache.commons</pattern>
 									<shadedPattern>com.hm.apache.commons</shadedPattern>
 								</relocation>
-								<!-- Reduce risks of conflicts with dependencies commonly used in 
+								<!-- Reduce risks of conflicts with dependencies commonly used in
 									other plugins. -->
 								<relocation>
 									<pattern>org.h2</pattern>
