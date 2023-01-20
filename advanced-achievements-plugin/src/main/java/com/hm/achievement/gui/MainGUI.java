@@ -8,12 +8,15 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import jdk.jfr.Name;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -35,6 +38,7 @@ public class MainGUI implements Reloadable {
 
 	private final YamlConfiguration mainConfig;
 	private final YamlConfiguration langConfig;
+	private final YamlConfiguration guiConfig;
 	private final CacheManager cacheManager;
 	private final Set<Category> disabledCategories;
 	private final GUIItems guiItems;
@@ -48,10 +52,11 @@ public class MainGUI implements Reloadable {
 	private String langListAchievementInCategorySingular;
 
 	@Inject
-	public MainGUI(@Named("main") YamlConfiguration mainConfig, @Named("lang") YamlConfiguration langConfig,
+	public MainGUI(@Named("main") YamlConfiguration mainConfig, @Named("lang") YamlConfiguration langConfig, @Named("gui") YamlConfiguration guiConfig,
 			CacheManager cacheManager, Set<Category> disabledCategories, GUIItems guiItems, AchievementMap achievementMap) {
 		this.mainConfig = mainConfig;
 		this.langConfig = langConfig;
+		this.guiConfig = guiConfig;
 		this.cacheManager = cacheManager;
 		this.disabledCategories = disabledCategories;
 		this.guiItems = guiItems;
@@ -77,16 +82,35 @@ public class MainGUI implements Reloadable {
 		int totalEnabledCategories = MultipleAchievements.values().length + NormalAchievements.values().length + 1
 				- disabledCategories.size();
 		AchievementInventoryHolder inventoryHolder = new AchievementInventoryHolder();
-		int guiSize = NumberHelper.nextMultipleOf9(totalEnabledCategories);
+		int guiSize = (mainConfig.getInt("MainGUISize") == 0) ? NumberHelper.nextMultipleOf9(totalEnabledCategories) : mainConfig.getInt("MainGUISize");
 		Inventory mainGUI = Bukkit.createInventory(inventoryHolder, guiSize, langListGUITitle);
 		inventoryHolder.setInventory(mainGUI);
+
+		if (mainConfig.isSet("MainGUIFiller")) {
+			ItemStack background = new ItemStack(Material.valueOf(mainConfig.getString("MainGUIFiller")));
+			ItemMeta backgroundMeta = background.getItemMeta();
+			backgroundMeta.setDisplayName(" ");
+			background.setItemMeta(backgroundMeta);
+
+			for (int i=0; i<mainGUI.getSize(); i++) {
+				mainGUI.setItem(i, background);
+			}
+		}
 
 		int displayedSoFar = 0;
 		for (Entry<OrderedCategory, ItemStack> achievementItem : guiItems.getOrderedAchievementItems().entrySet()) {
 			Category category = achievementItem.getKey().getCategory();
 			ItemStack item = achievementItem.getValue();
+
+			ItemMeta meta = item.getItemMeta();
+			meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_DYE, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE);
+
+			item.setItemMeta(meta);
+
 			if (shouldDisplayCategory(item, player, category)) {
-				displayCategory(item, mainGUI, player, category, displayedSoFar);
+				int slot = (mainConfig.getBoolean("DefineMainGUISlots") ? guiConfig.getInt(category + ".Slot") : displayedSoFar);
+
+				displayCategory(item, mainGUI, player, category, slot);
 				++displayedSoFar;
 			}
 		}
