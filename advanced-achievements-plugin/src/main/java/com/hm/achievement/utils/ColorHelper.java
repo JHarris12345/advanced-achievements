@@ -4,6 +4,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.boss.BarColor;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class ColorHelper {
 
 	public static Color convertChatColorToColor(ChatColor chatColor) {
@@ -88,4 +91,16 @@ public class ColorHelper {
 		// Not called.
 	}
 
+	public static String translateColourCodes(String string) {
+		Pattern pattern = Pattern.compile("#[A-Fa-f0-9]{6}");
+		Matcher matcher = pattern.matcher(string);
+		String output = ChatColor.translateAlternateColorCodes('&', string);
+
+		while (matcher.find()) {
+			String color = string.substring(matcher.start(), matcher.end());
+			output = output.replace(color, "" + net.md_5.bungee.api.ChatColor.of(color));
+		}
+
+		return output;
+	}
 }
