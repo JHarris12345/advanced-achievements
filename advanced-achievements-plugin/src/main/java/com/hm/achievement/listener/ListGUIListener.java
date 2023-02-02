@@ -71,7 +71,7 @@ public class ListGUIListener implements Listener {
 		Player player = (Player) event.getWhoClicked();
 		if (currentPage == MAIN_GUI_PAGE) {
 			// Main GUI, check whether player can interact with the selected item.
-			if (!clickedItem.isSimilar(guiItems.getCategoryLock()) && event.getRawSlot() < getMainGUIItemCount()) {
+			if (!clickedItem.isSimilar(guiItems.getCategoryLock())) {
 				categoryGUI.displayCategoryGUI(clickedItem, player, 0);
 			}
 			return;
