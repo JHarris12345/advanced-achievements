@@ -16,8 +16,9 @@ public class ServerVersionModule {
 	int provideServerVersion() {
 		// Simple parsing of game version. Might need to be updated in the future depending on how the Minecraft
 		// versions change in the future.
-		String versionIdentifier = Bukkit.getServer().getClass().getPackage().getName().substring(23);
-		return Integer.parseInt(StringUtils.substringBetween(versionIdentifier, "_"));
+		/*String versionIdentifier = Bukkit.getServer().getClass().getPackage().getName().substring(23);
+		return Integer.parseInt(StringUtils.substringBetween(versionIdentifier, "_"));*/
+		return 0;
 	}
 
 }
