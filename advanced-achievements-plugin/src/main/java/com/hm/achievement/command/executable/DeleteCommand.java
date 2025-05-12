@@ -58,8 +58,8 @@ public class DeleteCommand extends AbstractParsableCommand {
 		String achievementName = parseAchievementName(args);
 
 		if (WILDCARD.equals(achievementName)) {
-			cacheManager.removePreviouslyReceivedAchievements(player.getUniqueId(), achievementMap.getAllNames());
 			databaseManager.deleteAllPlayerAchievements(player.getUniqueId());
+			cacheManager.removePreviouslyReceivedAchievements(player.getUniqueId(), achievementMap.getAllNames());
 			sender.sendMessage(StringUtils.replace(langAllDeleteAchievements, "PLAYER", args[args.length - 1]));
 		} else if (cacheManager.hasPlayerAchievement(player.getUniqueId(), achievementName)) {
 			cacheManager.removePreviouslyReceivedAchievements(player.getUniqueId(),
