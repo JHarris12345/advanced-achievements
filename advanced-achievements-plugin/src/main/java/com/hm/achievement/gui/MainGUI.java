@@ -1,6 +1,8 @@
 package com.hm.achievement.gui;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -8,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import com.hm.achievement.utils.ColorHelper;
 import jdk.jfr.Name;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -51,6 +54,8 @@ public class MainGUI implements Reloadable {
 	private String langListAchievementsInCategoryPlural;
 	private String langListAchievementInCategorySingular;
 
+	public static List<Category> displayedCategories = new ArrayList<>();
+
 	@Inject
 	public MainGUI(@Named("main") YamlConfiguration mainConfig, @Named("lang") YamlConfiguration langConfig, @Named("gui") YamlConfiguration guiConfig,
 			CacheManager cacheManager, Set<Category> disabledCategories, GUIItems guiItems, AchievementMap achievementMap) {
@@ -83,7 +88,8 @@ public class MainGUI implements Reloadable {
 				- disabledCategories.size();
 		AchievementInventoryHolder inventoryHolder = new AchievementInventoryHolder();
 		int guiSize = (mainConfig.getInt("MainGUISize") == 0) ? NumberHelper.nextMultipleOf9(totalEnabledCategories) : mainConfig.getInt("MainGUISize");
-		Inventory mainGUI = Bukkit.createInventory(inventoryHolder, guiSize, langListGUITitle);
+		//Inventory mainGUI = Bukkit.createInventory(inventoryHolder, guiSize, langListGUITitle);
+		Inventory mainGUI = Bukkit.createInventory(inventoryHolder, guiSize, ColorHelper.colour("&0Quests"));
 		inventoryHolder.setInventory(mainGUI);
 
 		if (mainConfig.isSet("MainGUIFiller")) {
@@ -162,5 +168,7 @@ public class MainGUI implements Reloadable {
 		} else {
 			gui.setItem(position, guiItems.getCategoryLock());
 		}
+
+		displayedCategories.add(category);
 	}
 }

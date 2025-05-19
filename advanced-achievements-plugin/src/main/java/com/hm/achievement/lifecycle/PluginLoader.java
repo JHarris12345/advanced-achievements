@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import com.hm.achievement.gui.MainGUI;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
@@ -171,7 +172,9 @@ public class PluginLoader {
 		reloadables.forEach(r -> {
 			if (r instanceof AbstractListener) {
 				AbstractListener listener = (AbstractListener) r;
-				if (!disabledCategories.contains(listener.getCategory())) {
+
+				// JHarris - As well as checking disabled category, check if it appears in the GUI
+				if (!disabledCategories.contains(listener.getCategory()) && MainGUI.displayedCategories.contains(listener.getCategory())) {
 					pluginManager.registerEvents(listener, advancedAchievements);
 				}
 			}

@@ -91,14 +91,14 @@ public class ColorHelper {
 		// Not called.
 	}
 
-	public static String translateColourCodes(String string) {
-		Pattern pattern = Pattern.compile("#[A-Fa-f0-9]{6}");
+	public static String colour(String string) {
+		Pattern pattern = Pattern.compile("&?#[A-Fa-f0-9]{6}");
 		Matcher matcher = pattern.matcher(string);
 		String output = ChatColor.translateAlternateColorCodes('&', string);
 
 		while (matcher.find()) {
 			String color = string.substring(matcher.start(), matcher.end());
-			output = output.replace(color, "" + net.md_5.bungee.api.ChatColor.of(color));
+			output = output.replace(color, "" + net.md_5.bungee.api.ChatColor.of(color.replace("&", "")));
 		}
 
 		return output;

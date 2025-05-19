@@ -12,7 +12,6 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import com.hm.achievement.utils.ColorHelper;
-import jdk.internal.net.http.common.Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.bukkit.ChatColor;
@@ -174,7 +173,7 @@ public class GUIItems implements Reloadable {
 		} else {
 			String formattedDisplayName = StringUtils.replaceEach(configListAchievementFormat,
 					new String[] { "%ICON%", "%NAME%" }, new String[] { configIcon, "&l" + displayName + "&8" });
-			itemMeta.setDisplayName(ColorHelper.translateColourCodes(formattedDisplayName));
+			itemMeta.setDisplayName(ColorHelper.colour(formattedDisplayName));
 		}
 		item.setItemMeta(itemMeta);
 	}
