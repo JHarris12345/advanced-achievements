@@ -168,7 +168,5 @@ public class MainGUI implements Reloadable {
 		} else {
 			gui.setItem(position, guiItems.getCategoryLock());
 		}
-
-		displayedCategories.add(category);
 	}
 }

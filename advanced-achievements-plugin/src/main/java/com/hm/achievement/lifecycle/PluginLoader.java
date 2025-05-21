@@ -169,12 +169,12 @@ public class PluginLoader {
 		logger.info("Registering event listeners...");
 		HandlerList.unregisterAll(advancedAchievements);
 		PluginManager pluginManager = advancedAchievements.getServer().getPluginManager();
+
 		reloadables.forEach(r -> {
 			if (r instanceof AbstractListener) {
 				AbstractListener listener = (AbstractListener) r;
 
-				// JHarris - As well as checking disabled category, check if it appears in the GUI
-				if (!disabledCategories.contains(listener.getCategory()) && MainGUI.displayedCategories.contains(listener.getCategory())) {
+				if (!disabledCategories.contains(listener.getCategory())) {
 					pluginManager.registerEvents(listener, advancedAchievements);
 				}
 			}
