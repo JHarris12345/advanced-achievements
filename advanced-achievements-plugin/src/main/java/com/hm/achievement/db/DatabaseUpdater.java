@@ -94,6 +94,8 @@ public class DatabaseUpdater {
 							+ " (playername char(36)," + category.toDBName() + " BIGINT,PRIMARY KEY (playername))");
 				}
 			}
+
+			st.addBatch("ALTER TABLE places ALTER COLUMN blocks VARCHAR(2048);");
 			st.executeBatch();
 		} catch (SQLException e) {
 			throw new PluginLoadError("Error while initialising database tables.", e);
