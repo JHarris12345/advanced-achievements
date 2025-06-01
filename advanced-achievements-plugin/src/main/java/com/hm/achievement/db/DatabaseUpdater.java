@@ -82,6 +82,11 @@ public class DatabaseUpdater {
 				st.addBatch("CREATE TABLE IF NOT EXISTS " + databaseManager.getPrefix() + category.toDBName()
 						+ " (playername char(36)," + category.toSubcategoryDBName() + " varchar(" + size + "),"
 						+ category.toDBName() + " INT,PRIMARY KEY(playername, " + category.toSubcategoryDBName() + "))");
+
+				st.addBatch(
+						"ALTER TABLE " + databaseManager.getPrefix() + category.toDBName() +
+								" ALTER COLUMN " + category.toSubcategoryDBName() + " VARCHAR(2048)"
+				);
 			}
 
 			for (NormalAchievements category : NormalAchievements.values()) {
@@ -95,7 +100,6 @@ public class DatabaseUpdater {
 				}
 			}
 
-			st.addBatch("ALTER TABLE places ALTER COLUMN blocks VARCHAR(2048);");
 			st.executeBatch();
 		} catch (SQLException e) {
 			throw new PluginLoadError("Error while initialising database tables.", e);
