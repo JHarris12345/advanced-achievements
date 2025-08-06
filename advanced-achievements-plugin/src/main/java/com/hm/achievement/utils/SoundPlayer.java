@@ -33,12 +33,12 @@ public class SoundPlayer {
 	 * @param fallbackSound
 	 */
 	public void play(Player player, String providedSound, String fallbackSound) {
-		if (EnumUtils.isValidEnum(Sound.class, providedSound)) {
+		/*if (EnumUtils.isValidEnum(Sound.class, providedSound)) {
 			player.playSound(player.getLocation(), Sound.valueOf(providedSound), 1, 0.7f);
 		} else {
 			player.playSound(player.getLocation(), Sound.valueOf(fallbackSound), 1, 0.7f);
 			logger.warning("Sound " + providedSound + " is invalid, using default instead.");
-		}
+		}*/
 	}
 
 }

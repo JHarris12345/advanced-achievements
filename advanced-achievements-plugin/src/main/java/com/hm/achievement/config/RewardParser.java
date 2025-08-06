@@ -180,7 +180,7 @@ public class RewardParser {
 				StringUtils.replaceOnce(langConfig.getString("increase-max-health-reward-received"), "AMOUNT",
 						Integer.toString(amount)));
 		Consumer<Player> rewarder = player -> {
-			AttributeInstance playerAttribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+			AttributeInstance playerAttribute = player.getAttribute(Attribute.MAX_HEALTH);
 			playerAttribute.setBaseValue(playerAttribute.getBaseValue() + amount);
 		};
 		return new Reward(Collections.singletonList(listText), Collections.singletonList(chatText), rewarder);

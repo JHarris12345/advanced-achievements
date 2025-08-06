@@ -93,7 +93,7 @@ public class AchieveDistanceRunnable extends StatisticIncreaseHandler implements
 				updateDistance(difference, player, NormalAchievements.DISTANCEPIG);
 			} else if (vehicleType == EntityType.MINECART) {
 				updateDistance(difference, player, NormalAchievements.DISTANCEMINECART);
-			} else if (vehicleType == EntityType.BOAT) {
+			} else if (vehicleType.name().endsWith("BOAT")) {
 				updateDistance(difference, player, NormalAchievements.DISTANCEBOAT);
 			} else if (vehicleType == EntityType.LLAMA) {
 				updateDistance(difference, player, NormalAchievements.DISTANCELLAMA);
